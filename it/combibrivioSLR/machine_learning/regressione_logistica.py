@@ -1,6 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import pandas as pd
 
 class RegLogistica:
@@ -51,7 +51,10 @@ class RegLogistica:
             "predizioni": y_pred.tolist(),
             "coeff": coeff_df[["variabile", "coefficiente"]].to_dict("records"),
             "intercetta": float(self.model.intercept_[0]),
-            "accuracy": accuracy_score(y_test, y_pred)
+            "accuracy": accuracy_score(y_test, y_pred),
+            "precision": precision_score(y_test, y_pred),
+            "recall": recall_score(y_test, y_pred),
+            "f1_score": f1_score(y_test, y_pred),
         }
         
 

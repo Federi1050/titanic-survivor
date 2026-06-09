@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from xgboost import XGBClassifier
 
 class XgBoost:
@@ -57,7 +57,9 @@ class XgBoost:
         self.val_model = {
             "predizioni": y_pred.tolist(),
             "accuracy": accuracy_score(y_test, y_pred),
-
+            "precision": precision_score(y_test, y_pred),
+            "recall": recall_score(y_test, y_pred),
+            "f1_score": f1_score(y_test, y_pred),
             # opzionali ma utili:
             "feature_importance": importance_df[["variabile", "feature_importance"]].to_dict("records")
         }
