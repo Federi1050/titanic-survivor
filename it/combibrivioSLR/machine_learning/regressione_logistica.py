@@ -82,5 +82,15 @@ class RegLogistica:
 
         predizioni = self.model.predict(df)
 
-        return pd.Series(predizioni, name="predizione")
+        output = pd.DataFrame({
+            "PassengerId": dataframe["PassengerId"],
+            "Survived": predizioni
+        })
+
+        lista_coppie = list(zip(output["PassengerId"], output["Survived"]))
+
+        # salva CSV
+        output.to_csv("csvs/xgboost_prev_test.csv", index=False)
+
+        return lista_coppie
 

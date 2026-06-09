@@ -178,15 +178,15 @@ class FlaskManager(object):
 
         @self.app.route('/previsione_regLogistica_test')
         def previsione_regLosgistica_test():
-            ris = self.reg_log.prevedi_csv(self.ds_mg.get_datatest())
-            return jsonify({"previsioni del dataset: ": ris.tolist()})
+            ris = self.reg_log.prevedi_csv(self.ds_mg.clean(self.ds_mg.get_datatest()))
+            return jsonify({"previsioni del dataset: ": ris})
 
         @self.app.route('/previsione_rndForest_test')
         def previsione_rndForest_test():
-            ris = self.rnd_forest.prevedi_csv(self.ds_mg.get_datatest())
-            return jsonify({"previsioni del dataset: ": ris.tolist()})
+            ris = self.rnd_forest.prevedi_csv(self.ds_mg.clean(self.ds_mg.get_datatest()))
+            return jsonify({"previsioni del dataset: ": ris})
 
         @self.app.route('/previsione_xgboost_test')
         def previsione_xgboost_test():
-            ris = self.xgb.prevedi_csv(self.ds_mg.get_datatest())
+            ris = self.xgb.prevedi_csv(self.ds_mg.clean(self.ds_mg.get_datatest()))
             return jsonify({"previsioni del dataset: ": ris})
