@@ -6,17 +6,14 @@ from it.combibrivioSLR.dataset.grafici import Grafici
 
 class DatasetManager:
     def __init__(self):
-        self.__dataset = self.load()
+        self.load()
         self.__data_ana = DatasetAnalisi()
         self.__grafici = Grafici()
 
     def load(self):
-        df1 = pd.read_csv("test.csv")
-        df2 = pd.read_csv("train.csv")
+        self.__dftest = pd.read_csv("csvs/test.csv")
+        self.__dftrain = pd.read_csv("csvs/train.csv")
 
-        df = pd.concat([df1, df2], ignore_index=True)
-
-        return df
 
     def set_data(self, data):
         self.__dataset = data

@@ -6,7 +6,7 @@ app.run(host='0.0.0.0', port=5000, debug = True)
 """
 
 from it.combibrivioSLR.dataset.dataset_manager import DatasetManager
-#from it.combibrivioSPA.flask.flask_manager import FlaskManager
+#from it.combibrivioSLR.flask.flask_manager import FlaskManager
 #from it.combibrivioSLR.machine_learning.regressione_logistica import RegLogistica
 #from it.combibrivioSLR.machine_learning.random_forest import RndForest
 
