@@ -21,8 +21,8 @@ class DatasetManager:
         self.__dataset = data
 
     def analisi(self):
-        val_nan = self.__data_ana.valori_nulli(self.__dataset)
-        val_strani = self.__data_ana.valori_stringhe(self.__dataset)
+        val_nan = self.__data_ana.valori_nulli(self.__dftrain)
+        val_strani = self.__data_ana.valori_stringhe(self.__dftrain)
         outliers = self.outlier()
         return {
             "val_nan": val_nan,
@@ -31,8 +31,8 @@ class DatasetManager:
         }
 
     def outlier(self):
-        outl_iqr = self.__data_ana.outliers_iqr_per_col(self.__dataset)
-        outl_zscore = self.__data_ana.outliers_zscore_per_col(self.__dataset)
+        outl_iqr = self.__data_ana.outliers_iqr_per_col(self.__dftrain)
+        outl_zscore = self.__data_ana.outliers_zscore_per_col(self.__dftrain)
         return {
             "outl_iqr": outl_iqr,
             "outl_zscore": outl_zscore
@@ -40,16 +40,16 @@ class DatasetManager:
 
     def normality(self):
         # su categorici non ha senso farla
-        norm = self.__data_ana.normality(self.__dataset)
+        norm = self.__data_ana.normality(self.__dftrain)
         return {
             "normality": norm
         }
 
     def grafici(self):
-        correlation = None  # self.__grafici.plot_correlation(self.__dataset) impossibile fare su categorici
+        correlation = None  # self.__grafici.plot_correlation(self.__dftrain) impossibile fare su categorici
         list_hist = []
-        for col in self.__dataset.columns:
-            hist = self.__grafici.plot_hist(self.__dataset, col)
+        for col in self.__dftrain.columns:
+            hist = self.__grafici.plot_hist(self.__dftrain, col)
             list_hist.append(hist)
         return {
             "correlation": correlation,
@@ -60,10 +60,10 @@ class DatasetManager:
         self.__dftrain = self.__data_ana.clean_data(self.__dftrain)
 
     def stampa(self):
-        print(self.__dataset)
+        print(self.__dftrain)
 
     def correlazione(self):
-        return self.__data_ana.correlazione(self.__dataset)
+        return self.__data_ana.correlazione(self.__dftrain)
 
     def get_datatset(self):
-        return self.__dataset
+        return self.__dftrain
