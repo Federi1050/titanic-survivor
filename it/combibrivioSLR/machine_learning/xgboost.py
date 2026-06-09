@@ -1,22 +1,20 @@
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
 
-class RndForest:
-
-    def __init__(self , dataset ):
+class XgBoost:
+    def __init__(self, dataset):
         self.val_model = None
         self.set_mod(dataset)
-    
+
     def set_mod(self, dataset):
         # Variabili esplicative e target
         y = dataset["Survived"]
-        
+
         # feature categoriche
         X = pd.get_dummies(
-        dataset.drop(columns=["Survived"]),
-        drop_first=True
+            dataset.drop(columns=["Survived"]),
+            drop_first=True
         )
 
         self.feature_columns = X.columns.tolist()
@@ -31,15 +29,14 @@ class RndForest:
         )
         # Modello Random Forest
         model = RandomForestClassifier(
-        n_estimators=500,   # numero di alberi
-        random_state=42
+            n_estimators=500,  # numero di alberi
+            random_state=42
         )
 
         # Addestramento
         model.fit(X_train, y_train)
 
-
-        self.model= model 
+        self.model = model
         y_pred = model.predict(X_test)
 
         importance_df = pd.DataFrame({
@@ -54,18 +51,17 @@ class RndForest:
 
         # Valutazione
         self.val_model = {
-        "predizioni": y_pred.tolist(),
-        "accuracy": accuracy_score(y_test, y_pred),
+            "predizioni": y_pred.tolist(),
+            "accuracy": accuracy_score(y_test, y_pred),
 
-        # opzionali ma utili:
-        "feature_importance": importance_df[["variabile","feature_importance"]].to_dict("records")
+            # opzionali ma utili:
+            "feature_importance": importance_df[["variabile", "feature_importance"]].to_dict("records")
         }
 
     def get_val(self):
-            return self.val_model
-    
+        return self.val_model
+
     def prevedi(self, osservazione):
-    
         # se arriva lista di coppie -> dict
         if isinstance(osservazione, list):
             osservazione = dict(osservazione)
@@ -89,4 +85,3 @@ class RndForest:
         predizioni = self.model.predict(df)
 
         return pd.Series(predizioni, name="predizione")
-

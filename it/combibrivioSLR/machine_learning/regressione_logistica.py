@@ -74,3 +74,13 @@ class RegLogistica:
 
         return self.model.predict(df)
 
+    def prevedi_csv(self, dataframe):
+        df = pd.get_dummies(dataframe)
+
+        # riallineamento colonne come nel training
+        df = df.reindex(columns=self.feature_columns, fill_value=0)
+
+        predizioni = self.model.predict(df)
+
+        return pd.Series(predizioni, name="predizione")
+

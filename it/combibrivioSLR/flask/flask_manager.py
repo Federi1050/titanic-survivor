@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from it.combibrivioSLR.dataset.dataset_manager import DatasetManager
 from it.combibrivioSLR.machine_learning.regressione_logistica import RegLogistica
 from it.combibrivioSLR.machine_learning.random_forest import RndForest
+from it.combibrivioSLR.machine_learning.xgboost import XgBoost
 
 
 class FlaskManager(object):
@@ -143,3 +144,18 @@ class FlaskManager(object):
                 ('Embarked', data.get('Embarked'))
             ]
             return jsonify({"survived status": self.xgb.prevedi(obj).tolist()})
+
+        @self.app.route('/previsione_regLogistica_test')
+        def previsione_rndForest_test():
+            ris = self.reg_log.prevedi_csv(self.ds_mg.get_datatest())
+            return jsonify({"previsioni del dataset: ", ris.tolist()})
+
+        @self.app.route('/previsione_rndForest_test')
+        def previsione_rndForest_test():
+            ris = self.rnd_forest.prevedi_csv(self.ds_mg.get_datatest())
+            return jsonify({"previsioni del dataset: ", ris.tolist()})
+
+        @self.app.route('/previsione_xgboost_test')
+        def previsione_rndForest_test():
+            ris = self.xgb.prevedi_csv(self.ds_mg.get_datatest())
+            return jsonify({"previsioni del dataset: ", ris.tolist()})

@@ -16,7 +16,6 @@ class DatasetManager:
         self.__dftest = pd.read_csv("csvs/test.csv")
         self.__dftrain = pd.read_csv("csvs/train.csv")
 
-
     def set_data(self, data):
         self.__dataset = data
 
