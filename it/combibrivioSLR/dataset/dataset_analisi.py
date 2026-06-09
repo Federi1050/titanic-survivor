@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.stats import zscore, chi2_contingency
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
 
 class DatasetAnalisi:
 
@@ -52,7 +54,17 @@ class DatasetAnalisi:
         # data.loc[data["poisonous"].isin(["unknown edibility", "not recommended"]), "poisonous"] = "definitely poisonous"
 
         # colonna con valori tutti iguali per ogni riga
-        #data = data.drop(columns=["veil-type"])
+        data = data.drop(columns=["Name","Ticket","Cabin","PassengerId"])
+        data["Age"]=data["Age"].fillna(data["Age"].median() + 0.5)
+
+        data["Embarked"]
+
+        # encoding colonne categoriche:
+        le = LabelEncoder()
+        categorical_cols = data.select_dtypes(include=["object", "category"]).columns
+        for col in categorical_cols:
+            data[col] = le.fit_transform(data[col].astype(str))
+
 
         return data
 

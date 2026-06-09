@@ -24,23 +24,27 @@ ds_mg.stampa()
 print()
 
 print("Esplorazione del dataset")
-print(ds_mg.analisi())
+ds_mg.analisi()
 print()
 
 print("Visualizzazione grafici")
-ds_mg.grafici()
+#ds_mg.grafici()
 print()
 
 print("pulisco dataset")
-#ds_mg.clean()
+ds_mg.clean()
 print()
 
+print()
+ds_mg.analisi()
+
+
 print("stampa dataset dopo cleaning")
-# ds_mg.stampa()
+ds_mg.stampa()
 print()
 
 print("correlazione")
-# print(ds_mg.correlazione())
+#print(ds_mg.correlazione())
 print()
 
 
