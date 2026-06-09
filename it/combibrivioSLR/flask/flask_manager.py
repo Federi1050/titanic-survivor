@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from it.combibrivioSLR.dataset.dataset_manager import DatasetManager
 from it.combibrivioSLR.machine_learning.regressione_logistica import RegLogistica
 from it.combibrivioSLR.machine_learning.random_forest import RndForest
-from it.combibrivioSLR.machine_learning.xgboost import XgBoost
+from it.combibrivioSLR.machine_learning.xg_boost import XgBoost
 
 
 class FlaskManager(object):

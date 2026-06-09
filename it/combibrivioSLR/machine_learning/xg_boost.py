@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from xgboost import XGBClassifier
 
 class XgBoost:
     def __init__(self, dataset):
@@ -27,10 +28,13 @@ class XgBoost:
             random_state=42,
             stratify=y
         )
-        # Modello Random Forest
-        model = RandomForestClassifier(
-            n_estimators=500,  # numero di alberi
-            random_state=42
+        # Modello XGBoost
+        model = XGBClassifier(
+            n_estimators=500,
+            learning_rate=0.3,
+            max_depth=5,
+            random_state=42,
+            eval_metric="logloss",
         )
 
         # Addestramento
@@ -74,7 +78,7 @@ class XgBoost:
         # riallineamento colonne (PASSAGGIO FONDAMENTALE)
         df = df.reindex(columns=self.feature_columns, fill_value=0)
 
-        return self.model.predict(df)
+        return self.model.predict(df)[0]
 
     def prevedi_csv(self, dataframe):
         df = pd.get_dummies(dataframe)
