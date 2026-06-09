@@ -6,6 +6,8 @@ from it.combibrivioSLR.dataset.grafici import Grafici
 
 class DatasetManager:
     def __init__(self):
+        self.__dftest = None
+        self.__dftrain = None
         self.load()
         self.__data_ana = DatasetAnalisi()
         self.__grafici = Grafici()
@@ -55,7 +57,7 @@ class DatasetManager:
         }
 
     def clean(self):
-        self.__dataset = self.__data_ana.clean_data(self.__dataset)
+        self.__dftrain = self.__data_ana.clean_data(self.__dftrain)
 
     def stampa(self):
         print(self.__dataset)
