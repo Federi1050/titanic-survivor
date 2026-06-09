@@ -51,7 +51,7 @@ class RegLogistica:
             "predizioni": y_pred.tolist(),
             "coeff": coeff_df[["variabile", "coefficiente"]].to_dict("records"),
             "intercetta": float(self.model.intercept_[0]),
-            "accuracy": accuracy_score(y_test, y_pred),
+            "accuracy": accuracy_score(y_test, y_pred)
         }
         
 

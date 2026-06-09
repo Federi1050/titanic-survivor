@@ -99,6 +99,37 @@ class FlaskManager(object):
         def valMod_XGboost():
             return jsonify(self.xgb.get_val())
 
+        @self.app.route('/confronto_valutazioni')
+        def confronto_valutazioni():
+            modelli = {
+                "regressione_logistica": self.reg_log.get_val(),
+                "random_forest": self.rnd_forest.get_val(),
+                "xgboost": self.xgb.get_val()
+            }
+            # tabella principale (confronto accuracy)
+            tabella_accuracy = [
+                {
+                    "modello": nome,
+                    "accuracy": valori["accuracy"]
+                }
+                for nome, valori in modelli.items()
+            ]
+
+            # ordinamento per performance
+            tabella_accuracy = sorted(
+                tabella_accuracy,
+                key=lambda x: x["accuracy"],
+                reverse=True
+            )
+
+            migliore = tabella_accuracy[0]["modello"]
+
+            return jsonify({
+                "tabella_accuracy": tabella_accuracy,
+                "migliore": migliore,
+                "dettaglio_modelli": modelli
+            })
+
         @self.app.route('/previsione_regLogistica', methods=['POST'])
         def previsione_regLogistica():
             data = request.get_json()
