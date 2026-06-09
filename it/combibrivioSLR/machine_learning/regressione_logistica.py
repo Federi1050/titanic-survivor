@@ -12,11 +12,11 @@ class RegLogistica:
     
     def set_mod(self, data):
         # Variabili esplicative e target
-        y = data["poisonous"]
+        y = data["Survived"]
         
         # feature categoriche
         X = pd.get_dummies(
-        data.drop(columns=["poisonous"]),
+        data.drop(columns=["Survived"]),
         drop_first=True
         )
 

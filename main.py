@@ -1,20 +1,13 @@
-"""from it.combibrivioSLR.flask.flask_manager import FlaskManager
-
-app = FlaskManager()
-app.run(host='0.0.0.0', port=5000, debug = True)
-
-"""
-
-from it.combibrivioSLR.dataset.dataset_manager import DatasetManager
-#from it.combibrivioSLR.flask.flask_manager import FlaskManager
+#from it.combibrivioSLR.dataset.dataset_manager import DatasetManager
+from it.combibrivioSLR.flask.flask_manager import FlaskManager
 #from it.combibrivioSLR.machine_learning.regressione_logistica import RegLogistica
 #from it.combibrivioSLR.machine_learning.random_forest import RndForest
 
 
-#app = FlaskManager()
-#app.run(host='0.0.0.0', port=5000, debug=True)
+app = FlaskManager()
+app.run(host='0.0.0.0', port=5000, debug=True)
 
-
+'''
 print("Carico dataset")
 ds_mg = DatasetManager()
 print()
@@ -46,6 +39,6 @@ print()
 print("correlazione")
 #print(ds_mg.correlazione())
 print()
-
+'''
 
 
