@@ -19,8 +19,9 @@ class FlaskManager(object):
         self.ds_mg.clean()
         # print(self.ds_mg.get_datatset().loc[5].to_dict())
 
-        self.reg_log = RegLogistica(self.ds_mg.get_datatset())
-        self.rnd_forest = RndForest(self.ds_mg.get_datatset())
+        self.reg_log = RegLogistica(self.ds_mg.get_datatrain())
+        self.rnd_forest = RndForest(self.ds_mg.get_datatrain())
+        self.xgb = XgBoost(self.ds_mg.get_datatrain())
 
     def run(self, **kwargs):
         self.app.run(**kwargs)
@@ -32,7 +33,7 @@ class FlaskManager(object):
 
         @self.app.route('/datasetshow')
         def dataset_show():
-            return jsonify(self.ds_mg.get_datatset().head(5).to_dict())
+            return jsonify(self.ds_mg.get_datatrain().head(5).to_dict())
 
         @self.app.route('/info')
         def info():
@@ -93,62 +94,52 @@ class FlaskManager(object):
         def valMod_regLogisticaRndForest():
             return jsonify(self.rnd_forest.get_val())
 
+        @self.app.route('/valMod_XGboost')
+        def valMod_XGboost():
+            return jsonify(self.xgb.get_val())
+
         @self.app.route('/previsione_regLogistica', methods=['POST'])
         def previsione_regLogistica():
             data = request.get_json()
             obj = [
-                ('cap-shape', data.get('cap-shape')),
-                ('cap-surface', data.get('cap-surface')),
-                ('cap-color', data.get('cap-color')),
-                ('bruises', data.get('bruises')),
-                ('odor', data.get('odor')),
-                ('gill-attachment', data.get('gill-attachment')),
-                ('gill-spacing', data.get('gill-spacing')),
-                ('gill-size', data.get('gill-size')),
-                ('gill-color', data.get('gill-color')),
-                ('stalk-shape', data.get('stalk-shape')),
-                ('stalk-root', data.get('stalk-root')),
-                ('stalk-surface-above-ring', data.get('stalk-surface-above-ring')),
-                ('stalk-surface-below-ring', data.get('stalk-surface-below-ring')),
-                ('stalk-color-above-ring', data.get('stalk-color-above-ring')),
-                ('stalk-color-below-ring', data.get('stalk-color-below-ring')),
-                ('veil-color', data.get('veil-color')),
-                ('ring-number', data.get('ring-number')),
-                ('ring-type', data.get('ring-type')),
-                ('spore-print-color', data.get('spore-print-color')),
-                ('population', data.get('population')),
-                ('habitat', data.get('habitat'))
+                ('Pclass', data.get('Pclass')),
+                ('Sex', data.get('Sex')),
+                ('Age', data.get('Age')),
+                ('SibSp', data.get('SibSp')),
+                ('Parch', data.get('Parch')),
+                ('Fare', data.get('Fare')),
+                ('Embarked', data.get('Embarked'))
             ]
 
             pred = self.reg_log.prevedi(obj)
             print("PREDIZIONE:", pred)
 
-            return jsonify({"poisonus": self.reg_log.prevedi(obj).tolist()})
+            return jsonify({"survived status": self.reg_log.prevedi(obj).tolist()})
 
         @self.app.route('/previsione_rndForest', methods=['POST'])
         def previsione_rndForest():
             data = request.get_json()
             obj = [
-                ('cap-shape', data.get('cap-shape')),
-                ('cap-surface', data.get('cap-surface')),
-                ('cap-color', data.get('cap-color')),
-                ('bruises', data.get('bruises')),
-                ('odor', data.get('odor')),
-                ('gill-attachment', data.get('gill-attachment')),
-                ('gill-spacing', data.get('gill-spacing')),
-                ('gill-size', data.get('gill-size')),
-                ('gill-color', data.get('gill-color')),
-                ('stalk-shape', data.get('stalk-shape')),
-                ('stalk-root', data.get('stalk-root')),
-                ('stalk-surface-above-ring', data.get('stalk-surface-above-ring')),
-                ('stalk-surface-below-ring', data.get('stalk-surface-below-ring')),
-                ('stalk-color-above-ring', data.get('stalk-color-above-ring')),
-                ('stalk-color-below-ring', data.get('stalk-color-below-ring')),
-                ('veil-color', data.get('veil-color')),
-                ('ring-number', data.get('ring-number')),
-                ('ring-type', data.get('ring-type')),
-                ('spore-print-color', data.get('spore-print-color')),
-                ('population', data.get('population')),
-                ('habitat', data.get('habitat'))
+                ('Pclass', data.get('Pclass')),
+                ('Sex', data.get('Sex')),
+                ('Age', data.get('Age')),
+                ('SibSp', data.get('SibSp')),
+                ('Parch', data.get('Parch')),
+                ('Fare', data.get('Fare')),
+                ('Embarked', data.get('Embarked'))
             ]
-            return jsonify({"poisonus": self.rnd_forest.prevedi(obj).tolist()})
+            return jsonify({"survived status": self.rnd_forest.prevedi(obj).tolist()})
+
+        @self.app.route('/previsione_xgboost', methods=['POST'])
+        def previsione_xgboost():
+            data = request.get_json()
+            obj = [
+                ('Pclass', data.get('Pclass')),
+                ('Sex', data.get('Sex')),
+                ('Age', data.get('Age')),
+                ('SibSp', data.get('SibSp')),
+                ('Parch', data.get('Parch')),
+                ('Fare', data.get('Fare')),
+                ('Embarked', data.get('Embarked'))
+            ]
+            return jsonify({"survived status": self.xgb.prevedi(obj).tolist()})
