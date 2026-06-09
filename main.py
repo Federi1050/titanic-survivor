@@ -24,7 +24,7 @@ ds_mg.stampa()
 print()
 
 print("Esplorazione del dataset")
-ds_mg.analisi()
+print(ds_mg.analisi())
 print()
 
 print("Visualizzazione grafici")
@@ -35,9 +35,9 @@ print("pulisco dataset")
 ds_mg.clean()
 print()
 
+print("Analisi dati dopo il cleaning")
+print(ds_mg.analisi())
 print()
-ds_mg.analisi()
-
 
 print("stampa dataset dopo cleaning")
 ds_mg.stampa()

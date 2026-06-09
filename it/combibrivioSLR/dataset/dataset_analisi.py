@@ -56,15 +56,17 @@ class DatasetAnalisi:
         # colonna con valori tutti iguali per ogni riga
         data = data.drop(columns=["Name","Ticket","Cabin","PassengerId"])
         data["Age"]=data["Age"].fillna(data["Age"].median() + 0.5)
-
-        data["Embarked"]
-
+        data["Embarked"] = data["Embarked"].replace("nan", np.nan)
+        data["Embarked"] = data["Embarked"].fillna(data["Embarked"].mode()[0])
+        data["Embarked"] = data["Embarked"].map({
+        "S": "Southampton",
+        "C": "Cherbourg",
+        "Q": "Queenstown" })
+    
         # encoding colonne categoriche:
         le = LabelEncoder()
-        categorical_cols = data.select_dtypes(include=["object", "category"]).columns
-        for col in categorical_cols:
-            data[col] = le.fit_transform(data[col].astype(str))
-
+        
+        data["Sex"] = le.fit_transform(data["Sex"].astype(str))
 
         return data
 
@@ -93,3 +95,4 @@ class DatasetAnalisi:
     def normality(self, data):
         pass
         # su dataset categorici non ha senso farlo
+    
