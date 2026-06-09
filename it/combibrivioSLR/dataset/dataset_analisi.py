@@ -1,8 +1,8 @@
 import numpy as np
-from scipy.stats import zscore, chi2_contingency
+from scipy.stats import zscore, chi2_contingency, shapiro, normaltest
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-
+ 
 
 class DatasetAnalisi:
 
@@ -97,7 +97,47 @@ class DatasetAnalisi:
         kcorr = k - ((k-1)**2)/(n-1)
         return np.sqrt(phi2corr/ min((kcorr - 1), (rcorr-1)))
 
-    def normality(self, data):
-        pass
-        # su dataset categorici non ha senso farlo
+    def normality(self, data, alpha=0.05):
+        numeric_cols = data.select_dtypes(include=np.number).columns
+
+        risultati = []
+
+        for col in numeric_cols:
+
+            x = data[col].dropna()
+
+            if len(x) < 8:
+                risultati.append({
+                    "variabile": col,
+                    "n": len(x),
+                    "test": None,
+                    "statistica": np.nan,
+                    "p_value": np.nan,
+                    "normale": None,
+                    "note": "Campione troppo piccolo"
+                })
+                continue
+
+            # Shapiro per n <= 5000
+            if len(x) <= 5000:
+                stat, p = shapiro(x)
+                test = "Shapiro-Wilk"
+
+            # D'Agostino-Pearson per n > 5000
+            else:
+                stat, p = normaltest(x)
+                test = "D'Agostino-Pearson"
+
+            risultati.append({
+                "variabile": col,
+                "n": len(x),
+                "test": test,
+                "statistica": round(stat, 4),
+                "p_value": round(p, 6),
+                "normale": p > alpha,
+                "note": ""
+            })
+
+        return pd.DataFrame(risultati)
+    
     

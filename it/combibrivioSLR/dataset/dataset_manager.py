@@ -23,10 +23,12 @@ class DatasetManager:
         val_nan = self.__data_ana.valori_nulli(self.__dftrain)
         val_strani = self.__data_ana.valori_stringhe(self.__dftrain)
         outliers = self.outlier()
+        norm = self.__data_ana.normality(self.__dftrain)
         return {
             "val_nan": val_nan,
             "val_strani": val_strani,
-            "outliers": None  # visto che sono tutti categorici fissi (opzioni) non ha senso parlare di outliers
+            "outliers": outliers,  # visto che sono tutti categorici fissi (opzioni) non ha senso parlare di outliers
+            "test normalità": norm
         }
 
     def outlier(self):
@@ -37,12 +39,6 @@ class DatasetManager:
             "outl_zscore": outl_zscore
         }
 
-    def normality(self):
-        # su categorici non ha senso farla
-        norm = self.__data_ana.normality(self.__dftrain)
-        return {
-            "normality": norm
-        }
 
     def grafici(self):
         correlation = None  # self.__grafici.plot_correlation(self.__dftrain) impossibile fare su categorici

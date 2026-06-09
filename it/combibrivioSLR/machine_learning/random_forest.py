@@ -58,7 +58,7 @@ class RndForest:
         "precision": precision_score(y_test, y_pred),
         "recall": recall_score(y_test, y_pred),
         "f1_score": f1_score(y_test, y_pred),
-        
+
         # opzionali ma utili:
         "feature_importance": importance_df[["variabile","feature_importance"]].to_dict("records")
         }
