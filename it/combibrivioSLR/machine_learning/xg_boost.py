@@ -80,7 +80,7 @@ class XgBoost:
 
         return self.model.predict(df)[0]
 
-    def prevedi_csv(self, dataframe):
+    def prevedi_csv(self, passengerId, dataframe):
         df = pd.get_dummies(dataframe)
 
         # riallineamento colonne come nel training
@@ -89,11 +89,11 @@ class XgBoost:
         predizioni = self.model.predict(df)
 
         output = pd.DataFrame({
-            "PassengerId": dataframe["PassengerId"],
+            "PassengerId": passengerId,
             "Survived": predizioni
         })
 
-        lista_coppie = list(zip(output["PassengerId"], output["Survived"]))
+        lista_coppie = list(output.itertuples(index=False, name=None))
 
         # salva CSV
         output.to_csv("csvs/xgboost_prev_test.csv", index=False)

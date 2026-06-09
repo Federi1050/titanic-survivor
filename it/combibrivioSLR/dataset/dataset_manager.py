@@ -58,6 +58,9 @@ class DatasetManager:
     def clean(self):
         self.__dftrain = self.__data_ana.clean_data(self.__dftrain)
 
+    def clean_data(self, dataframe):
+        return self.__data_ana.clean_data(dataframe)
+
     def stampa(self):
         print(self.__dftrain)
 

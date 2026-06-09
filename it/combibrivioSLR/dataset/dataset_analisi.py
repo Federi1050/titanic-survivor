@@ -56,7 +56,7 @@ class DatasetAnalisi:
         # colonna con valori tutti iguali per ogni riga
         data = data.drop(columns=["Name","Ticket","Cabin","PassengerId"])
         data["Age"]=data["Age"].fillna(data["Age"].median() + 0.5)
-
+        data["Fare"] = data["Fare"].fillna(data["Fare"].mean() + 0.5)
         data["Sex"] = data["Sex"].map({
         "female": 0,
         "male": 1

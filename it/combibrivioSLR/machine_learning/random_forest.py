@@ -80,7 +80,7 @@ class RndForest:
 
         return self.model.predict(df)
 
-    def prevedi_csv(self, dataframe):
+    def prevedi_csv(self, passengerId, dataframe):
         df = pd.get_dummies(dataframe)
 
         # riallineamento colonne come nel training
@@ -89,14 +89,14 @@ class RndForest:
         predizioni = self.model.predict(df)
 
         output = pd.DataFrame({
-            "PassengerId": dataframe["PassengerId"],
+            "PassengerId": passengerId,
             "Survived": predizioni
         })
 
-        lista_coppie = list(zip(output["PassengerId"], output["Survived"]))
+        lista_coppie = list(output.itertuples(index=False, name=None))
 
         # salva CSV
-        output.to_csv("csvs/xgboost_prev_test.csv", index=False)
+        output.to_csv("csvs/rndForest_prev_test.csv", index=False)
 
         return lista_coppie
 
