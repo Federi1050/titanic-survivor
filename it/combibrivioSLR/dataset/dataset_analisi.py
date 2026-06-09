@@ -1,7 +1,10 @@
 import numpy as np
 from scipy.stats import zscore, chi2_contingency, shapiro, normaltest
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.decomposition import PCA
+
+
 
 class DatasetAnalisi:
 
@@ -42,6 +45,7 @@ class DatasetAnalisi:
     def valori_nulli(self, data):
         return data.isnull().sum().sort_values(ascending=False)
 
+
     def clean_data(self, data):
         data = data.drop_duplicates()
         # gestione outlier   
@@ -73,6 +77,8 @@ class DatasetAnalisi:
 
         return data
 
+
+
     def correlazione(self, data):
         risultato = []
         for x in data.columns:
@@ -99,6 +105,7 @@ class DatasetAnalisi:
         risultati = []
 
         for col in numeric_cols:
+
             x = data[col].dropna()
 
             if len(x) < 8:
@@ -134,3 +141,44 @@ class DatasetAnalisi:
             })
 
         return pd.DataFrame(risultati)
+    
+    def pca(self,
+            data,
+            n_components=None, # da fissare una volta scelto il numero di componenti principali da
+            standardize=True):
+        
+        X = data.select_dtypes(include=np.number).copy()
+
+        if standardize:
+            scaler = StandardScaler()
+            X_scaled = scaler.fit_transform(X)
+        else:
+            X_scaled = X.values
+
+        pca = PCA(n_components=n_components)
+
+        scores = pca.fit_transform(X_scaled)
+
+        loadings = pd.DataFrame(
+            pca.components_.T,
+            index=X.columns,
+            columns=[f"PC{i+1}" for i in range(pca.n_components_)]
+        )
+
+        explained_variance = pd.DataFrame({
+            "Component": [f"PC{i+1}" for i in range(pca.n_components_)],
+            "Explained Variance": pca.explained_variance_ratio_,
+            "Cumulative Variance":
+                np.cumsum(pca.explained_variance_ratio_)
+        })
+
+        return {
+            "model": pca,
+            "scores": pd.DataFrame(
+                scores,
+                columns=[f"PC{i+1}" for i in range(pca.n_components_)]
+            ),
+            "loadings": loadings,
+            "explained_variance": explained_variance
+        }
+    

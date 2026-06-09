@@ -1,5 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 
 class Grafici:
     def plot_correlation(self, data):
@@ -12,9 +13,16 @@ class Grafici:
 
     def plot_hist(self, data, col):
         fig = plt.figure(figsize=(6,4))
-        plt.hist(data[col].dropna(), bins=30)
+
+        plt.hist(
+            data[col].dropna(),
+            bins=30,
+            edgecolor='black',
+            linewidth=2)
+        
         plt.title(f"Distribuzione di {col}")
         plt.show()
+
         return fig
 
     def plot_distribution(self, data, col):
@@ -44,3 +52,35 @@ class Grafici:
         plt.title(f"Distribuzione di {col}")
         plt.show()
         return fig
+    
+    def plot_explained_variance(pca_model):
+        """
+        Scree plot per la scelta del numero di componenti.
+        """
+        var_ratio = pca_model.explained_variance_ratio_
+        cum_var = np.cumsum(var_ratio)
+
+        fig, ax = plt.subplots(figsize=(8, 5))
+
+        ax.bar(
+            range(1, len(var_ratio) + 1),
+            var_ratio,
+            alpha=0.7,
+            label="Varianza spiegata"
+        )
+
+        ax.plot(
+            range(1, len(cum_var) + 1),
+            cum_var,
+            marker="o",
+            label="Varianza cumulata"
+        )
+
+        ax.set_xlabel("Componenti principali")
+        ax.set_ylabel("Proporzione di varianza")
+        ax.set_title("Scree Plot PCA")
+
+        ax.legend()
+        ax.grid(True)
+
+        plt.show()

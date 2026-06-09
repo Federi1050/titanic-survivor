@@ -39,7 +39,7 @@ class DatasetManager:
         }
 
     def grafici(self):
-        correlation = None  # self.__grafici.plot_correlation(self.__dftrain) impossibile fare su categorici
+        correlation = self.__grafici.plot_correlation(self.__dftrain) # impossibile fare su categorici
         list_hist = []
         for col in self.__dftrain.columns:
             hist = self.__grafici.plot_hist(self.__dftrain, col)
