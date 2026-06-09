@@ -3,7 +3,6 @@ from ucimlrepo import fetch_ucirepo
 from it.combibrivioSLR.dataset.dataset_analisi import DatasetAnalisi
 from it.combibrivioSLR.dataset.grafici import Grafici
 
-
 class DatasetManager:
     def __init__(self):
         self.__dftest = None
@@ -38,7 +37,6 @@ class DatasetManager:
             "outl_iqr": outl_iqr,
             "outl_zscore": outl_zscore
         }
-
 
     def grafici(self):
         correlation = None  # self.__grafici.plot_correlation(self.__dftrain) impossibile fare su categorici

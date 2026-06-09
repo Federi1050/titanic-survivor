@@ -4,6 +4,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from xgboost import XGBClassifier
 
 class XgBoost:
+
     def __init__(self, dataset):
         self.val_model = None
         self.set_mod(dataset)

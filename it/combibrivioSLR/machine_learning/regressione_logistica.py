@@ -8,7 +8,6 @@ class RegLogistica:
     def __init__(self ,data):
         self.val_model = None
         self.set_mod(data)
-
     
     def set_mod(self, data):
         # Variabili esplicative e target
@@ -56,7 +55,6 @@ class RegLogistica:
             "recall": recall_score(y_test, y_pred),
             "f1_score": f1_score(y_test, y_pred),
         }
-        
 
     def get_val(self):
             return self.val_model
@@ -97,4 +95,3 @@ class RegLogistica:
         output.to_csv("csvs/regLog_prev_test.csv", index=False)
 
         return lista_coppie
-

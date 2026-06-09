@@ -2,7 +2,6 @@ import numpy as np
 from scipy.stats import zscore, chi2_contingency, shapiro, normaltest
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
- 
 
 class DatasetAnalisi:
 
@@ -43,7 +42,6 @@ class DatasetAnalisi:
     def valori_nulli(self, data):
         return data.isnull().sum().sort_values(ascending=False)
 
-
     def clean_data(self, data):
         data = data.drop_duplicates()
         # gestione outlier   
@@ -75,8 +73,6 @@ class DatasetAnalisi:
 
         return data
 
-
-
     def correlazione(self, data):
         risultato = []
         for x in data.columns:
@@ -103,7 +99,6 @@ class DatasetAnalisi:
         risultati = []
 
         for col in numeric_cols:
-
             x = data[col].dropna()
 
             if len(x) < 8:
@@ -139,5 +134,3 @@ class DatasetAnalisi:
             })
 
         return pd.DataFrame(risultati)
-    
-    

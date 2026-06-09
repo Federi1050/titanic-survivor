@@ -10,7 +10,6 @@ from it.combibrivioSLR.machine_learning.regressione_logistica import RegLogistic
 from it.combibrivioSLR.machine_learning.random_forest import RndForest
 from it.combibrivioSLR.machine_learning.xg_boost import XgBoost
 
-
 class FlaskManager(object):
     def __init__(self):
         self.app = Flask(__name__)
