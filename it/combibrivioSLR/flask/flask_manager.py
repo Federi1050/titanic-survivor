@@ -10,30 +10,30 @@ from it.combibrivioSLR.machine_learning.regressione_logistica import RegLogistic
 from it.combibrivioSLR.machine_learning.random_forest import RndForest
 from it.combibrivioSLR.machine_learning.xg_boost import XgBoost
 
-class FlaskManager(object):
+class FlaskManager(object): # è una classe INTERFACCIA
     def __init__(self):
         self.app = Flask(__name__)
-        self.__register_routes()
+        self.__register_routes() # inizializzazione delle varie root tutte insieme
 
         self.ds_mg = DatasetManager()
-        self.ds_mg.clean()
-        # print(self.ds_mg.get_datatset().loc[5].to_dict())
 
+        self.ds_mg.clean()
         self.reg_log = RegLogistica(self.ds_mg.get_datatrain())
         self.rnd_forest = RndForest(self.ds_mg.get_datatrain())
         self.xgb = XgBoost(self.ds_mg.get_datatrain())
+        # in questo modo sia il cleaning sia i modelli vengono stimati in automatico
 
     def run(self, **kwargs):
-        self.app.run(**kwargs)
+        self.app.run(**kwargs) #**kwargs non specifico i parametri che dopo dovrò inserire
 
-    def __register_routes(self):
-        @self.app.route('/')
+    def __register_routes(self): # __ indica un metodo che vede solo questa classe
+        @self.app.route('/') # in automatico il metodo è GET 
         def home():
             return "Flask online"
 
         @self.app.route('/datasetshow')
         def dataset_show():
-            return jsonify(self.ds_mg.get_datatrain().head(5).to_dict())
+            return jsonify(self.ds_mg.get_datatrain().head(5).to_dict()) # per ritornare un dataframe si usa .to_dict()
 
         @self.app.route('/info')
         def info():
@@ -52,13 +52,13 @@ class FlaskManager(object):
         def grafici():
             grafici = self.ds_mg.grafici()
             figs = []
-            for value in grafici.values():
+            for value in grafici.values(): # bisogna scomporre la scritta dall'immagine
                 if value is None:
                     continue
 
                 # Se è una lista di figure
-                if isinstance(value, list):
-                    figs.extend(value)
+                if isinstance(value, list): # infatti gli istogrammi sono più immagini in una lista
+                    figs.extend(value) 
                 else:
                     figs.append(value)
 
@@ -81,7 +81,8 @@ class FlaskManager(object):
                {% endfor %}
                """
 
-            return render_template_string(html, images=images)
+            return render_template_string(html, images=images) #prende il template html e usa su tutte le immagini 
+                                                               #trasformate in formato base64
 
         @self.app.route('/correlazione')
         def correlazione():
@@ -132,7 +133,7 @@ class FlaskManager(object):
 
         @self.app.route('/previsione_regLogistica', methods=['POST'])
         def previsione_regLogistica():
-            data = request.get_json()
+            data = request.get_json() 
             obj = [
                 ('Pclass', data.get('Pclass')),
                 ('Sex', data.get('Sex')),
@@ -141,8 +142,8 @@ class FlaskManager(object):
                 ('Parch', data.get('Parch')),
                 ('Fare', data.get('Fare')),
                 ('Embarked', data.get('Embarked'))
-            ]
-
+            ]   # creando questo dizionario posso controllare che siano presenti tutti gli attributi necessari
+             
             pred = self.reg_log.prevedi(obj)
             print("PREDIZIONE:", pred)
 

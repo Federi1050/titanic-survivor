@@ -3,9 +3,9 @@ from ucimlrepo import fetch_ucirepo
 from it.combibrivioSLR.dataset.dataset_analisi import DatasetAnalisi
 from it.combibrivioSLR.dataset.grafici import Grafici
 
-class DatasetManager:
+class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa niente dal punto di vista di calcoli
     def __init__(self):
-        self.__dftest = None
+        self.__dftest = None    # in questo modo sono sicuro che questo attributo esiste 
         self.__dftrain = None
         self.load()
         self.__data_ana = DatasetAnalisi()
@@ -18,7 +18,7 @@ class DatasetManager:
     def set_data(self, data):
         self.__dataset = data
 
-    def analisi(self):
+    def analisi(self): 
         val_nan = self.__data_ana.valori_nulli(self.__dftrain)
         val_strani = self.__data_ana.valori_stringhe(self.__dftrain)
         outliers = self.outlier()

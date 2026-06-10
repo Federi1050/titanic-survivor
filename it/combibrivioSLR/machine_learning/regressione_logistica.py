@@ -95,3 +95,4 @@ class RegLogistica:
         output.to_csv("csvs/regLog_prev_test.csv", index=False)
 
         return lista_coppie
+    
