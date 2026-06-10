@@ -45,6 +45,7 @@ class FlaskManager(object):
                 return obj
 
             risp = {k: convert(v) for k, v in risp.items()}
+
             return jsonify(risp)
 
         @self.app.route('/grafici')

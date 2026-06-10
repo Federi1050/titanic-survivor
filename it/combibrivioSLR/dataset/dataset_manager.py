@@ -23,11 +23,13 @@ class DatasetManager:
         val_strani = self.__data_ana.valori_stringhe(self.__dftrain)
         outliers = self.outlier()
         norm = self.__data_ana.normality(self.__dftrain)
+        pca = self.__data_ana.pca(self.__dftrain)
         return {
             "val_nan": val_nan,
             "val_strani": val_strani,
             "outliers": outliers,  # visto che sono tutti categorici fissi (opzioni) non ha senso parlare di outliers
-            "test normalità": norm
+            "test normalità": norm,
+            "pca" : pca
         }
 
     def outlier(self):
@@ -40,13 +42,16 @@ class DatasetManager:
 
     def grafici(self):
         correlation = self.__grafici.plot_correlation(self.__dftrain) # impossibile fare su categorici
+        pca = self.__data_ana.pca(self.__dftrain)
+        grafico_pca = self.__grafici.plot_explained_variance(pca)
         list_hist = []
         for col in self.__dftrain.columns:
             hist = self.__grafici.plot_hist(self.__dftrain, col)
             list_hist.append(hist)
         return {
             "correlation": correlation,
-            "hist": list_hist
+            "hist": list_hist,
+            "PCA" : grafico_pca
         }
 
     def clean(self):
@@ -66,3 +71,4 @@ class DatasetManager:
 
     def get_datatest(self):
         return self.__dftest
+
