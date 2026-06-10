@@ -53,11 +53,17 @@ class Grafici:
         plt.show()
         return fig
     
-    def plot_explained_variance(pca_model):
+    def plot_explained_variance(self, pca_results):
         """
         Scree plot per la scelta del numero di componenti.
         """
-        var_ratio = pca_model.explained_variance_ratio_
+        explained_variance = pca_results["explained_variance"]
+
+        var_ratio = [
+            row["Explained Variance"]
+            for row in pca_results["explained_variance"]
+        ]
+
         cum_var = np.cumsum(var_ratio)
 
         fig, ax = plt.subplots(figsize=(8, 5))
@@ -80,7 +86,10 @@ class Grafici:
         ax.set_ylabel("Proporzione di varianza")
         ax.set_title("Scree Plot PCA")
 
+        ax.set_xticks(range(1, len(var_ratio) + 1))
         ax.legend()
         ax.grid(True)
-
+        plt.tight_layout()
         plt.show()
+
+        return fig

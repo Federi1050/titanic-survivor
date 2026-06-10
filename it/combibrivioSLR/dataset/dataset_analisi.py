@@ -134,13 +134,13 @@ class DatasetAnalisi:
                 "variabile": col,
                 "n": len(x),
                 "test": test,
-                "statistica": round(stat, 4),
-                "p_value": round(p, 6),
-                "normale": p > alpha,
+                "statistica": float(round(stat, 4)),
+                "p_value": float(round(p, 6)),
+                "normale": bool(p > alpha),
                 "note": ""
             })
 
-        return pd.DataFrame(risultati)
+        return risultati
     
     def pca(self,
             data,
@@ -173,12 +173,9 @@ class DatasetAnalisi:
         })
 
         return {
-            "model": pca,
-            "scores": pd.DataFrame(
-                scores,
-                columns=[f"PC{i+1}" for i in range(pca.n_components_)]
-            ),
-            "loadings": loadings,
-            "explained_variance": explained_variance
+            "n_components": int(pca.n_components_),
+            "scores": scores.tolist(),
+            "loadings": loadings.reset_index(names="Feature").to_dict(orient="records"),
+            "explained_variance": explained_variance.to_dict(orient="records")
         }
     
