@@ -73,7 +73,7 @@ class DatasetAnalisi:
 
         # encoding colonne categoriche:
         le = LabelEncoder()
-        data = pd.get_dummies(data, columns=["Embarked"])
+        data = pd.get_dummies(data, columns=["Embarked"], dtype=int)
 
         return data
 
